@@ -18,6 +18,7 @@ namespace TardyTerm
 
         int BAUD_RATE = 230400;
         bool _logging = false;
+        bool _portOpened = false;
         string DEFAULT_FILE = "Tardy.log";
         BinaryWriter BW;
 
@@ -38,9 +39,20 @@ namespace TardyTerm
         SerialPortAdapter _comInterface;
         private void btn_OpenJigPort_Click(object sender, EventArgs e)
         {
-            _comInterface = new SerialPortAdapter();
-            _comInterface.SerialDataRxedHandler = RxByteStreamParser;
-            if(Open(cbCOMPorts.Text)) btn_OpenJigPort.Text = "Opened";
+            if (_portOpened == false && Open(cbCOMPorts.Text))
+            {
+                _comInterface = new SerialPortAdapter();
+                _comInterface.SerialDataRxedHandler = RxByteStreamParser;
+
+                btn_OpenJigPort.Text = "Disconnect!";
+                _portOpened = true;
+            }
+            else if (_portOpened == true)
+            {
+                _comInterface.Close();
+                btn_OpenJigPort.Text = "Connect!";
+                _portOpened = false;
+            }
         }
 
         public bool Open(string comPort)
@@ -77,6 +89,7 @@ namespace TardyTerm
             {
                 btn_Log.Text = "Start Logging";
                 if(BW != null) BW.Close();
+                BW = null;
 
             }
 
