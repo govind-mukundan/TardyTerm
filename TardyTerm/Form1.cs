@@ -10,6 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Timers;
 
 namespace TardyTerm
 {
@@ -21,6 +22,12 @@ namespace TardyTerm
         bool _portOpened = false;
         string DEFAULT_FILE = "Tardy.log";
         BinaryWriter BW;
+        HRAnalyzer HRA;
+        SerialPortAdapter _comInterface;
+
+        // Timer to update the HR
+        System.Timers.Timer UIUpdateTimer;
+        int C_UI_UPDATE_INTERVAL = 100;
 
         public Form1()
         {
@@ -34,24 +41,45 @@ namespace TardyTerm
             {
                 cbCOMPorts.SelectedIndex = 0;
             }
+            HRA = new HRAnalyzer();
+            UIUpdateTimer = new System.Timers.Timer(C_UI_UPDATE_INTERVAL);
+            UIUpdateTimer.Elapsed += new ElapsedEventHandler(OnTimeElapsed);
+            
         }
 
-        SerialPortAdapter _comInterface;
+        void OnTimeElapsed(object source, ElapsedEventArgs e)
+        {
+            this.Invoke((MethodInvoker)delegate
+            {
+                lbl_HR.Text = "HR: " + HRA.HR.ToString();
+            });
+            
+        }
+
         private void btn_OpenJigPort_Click(object sender, EventArgs e)
         {
-            if (_portOpened == false && Open(cbCOMPorts.Text))
+            if (_portOpened == false)
             {
                 _comInterface = new SerialPortAdapter();
-                _comInterface.SerialDataRxedHandler = RxByteStreamParser;
+                if (Open(cbCOMPorts.Text))
+                {
+                    _comInterface.SerialDataRxedHandler = RxByteStreamParser;
 
-                btn_OpenJigPort.Text = "Disconnect!";
-                _portOpened = true;
+                    btn_OpenJigPort.Text = "Disconnect!";
+                    _portOpened = true;
+
+                    UIUpdateTimer.Enabled = true;
+                    UIUpdateTimer.Start();
+                }
             }
             else if (_portOpened == true)
             {
                 _comInterface.Close();
                 btn_OpenJigPort.Text = "Connect!";
                 _portOpened = false;
+
+                UIUpdateTimer.Enabled = false;
+                UIUpdateTimer.Stop();
             }
         }
 
@@ -63,11 +91,16 @@ namespace TardyTerm
 
         public int RxByteStreamParser(byte[] bytes)
         {
-            if (BW != null) BW.Write(bytes);
-            for(int i=0; i<bytes.Length; i++)
-                Debug.Write(Convert.ToString(bytes[i]) + " ");
+            int len = ((bytes.Length >> 1) << 1);
+            for (int i = 0; i < len; i = i+2)
+            {
+                //Debug.Write(Convert.ToString(bytes[i]) + " ");
+                HRA.Analyze(bytes[i] | ((UInt16)bytes[i + 1] << 8));
 
-            return bytes.Length;
+                if (BW != null) BW.Write((UInt16)(bytes[i] | ((UInt16)bytes[i + 1] << 8)));
+            }
+
+            return len;
         }
 
         private void button1_Click(object sender, EventArgs e)

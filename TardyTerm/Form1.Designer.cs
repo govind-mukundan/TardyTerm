@@ -33,6 +33,7 @@
             this.btn_Log = new System.Windows.Forms.Button();
             this.txtBx_LogFileName = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
+            this.lbl_HR = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // btn_OpenJigPort
@@ -80,11 +81,22 @@
             this.label1.TabIndex = 10;
             this.label1.Text = "Log File Name:";
             // 
+            // lbl_HR
+            // 
+            this.lbl_HR.AutoSize = true;
+            this.lbl_HR.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_HR.Location = new System.Drawing.Point(13, 82);
+            this.lbl_HR.Name = "lbl_HR";
+            this.lbl_HR.Size = new System.Drawing.Size(51, 20);
+            this.lbl_HR.TabIndex = 11;
+            this.lbl_HR.Text = "HR: -";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(354, 89);
+            this.ClientSize = new System.Drawing.Size(354, 129);
+            this.Controls.Add(this.lbl_HR);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.txtBx_LogFileName);
             this.Controls.Add(this.btn_Log);
@@ -106,6 +118,7 @@
         private System.Windows.Forms.Button btn_Log;
         private System.Windows.Forms.TextBox txtBx_LogFileName;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label lbl_HR;
     }
 }
 
