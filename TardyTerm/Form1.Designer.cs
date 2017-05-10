@@ -34,6 +34,7 @@
             this.txtBx_LogFileName = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.lbl_HR = new System.Windows.Forms.Label();
+            this.btn_Simulate = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // btn_OpenJigPort
@@ -91,11 +92,22 @@
             this.lbl_HR.TabIndex = 11;
             this.lbl_HR.Text = "HR: -";
             // 
+            // btn_Simulate
+            // 
+            this.btn_Simulate.Location = new System.Drawing.Point(26, 131);
+            this.btn_Simulate.Name = "btn_Simulate";
+            this.btn_Simulate.Size = new System.Drawing.Size(75, 23);
+            this.btn_Simulate.TabIndex = 12;
+            this.btn_Simulate.Text = "Simulate";
+            this.btn_Simulate.UseVisualStyleBackColor = true;
+            this.btn_Simulate.Click += new System.EventHandler(this.btn_Simulate_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(354, 129);
+            this.ClientSize = new System.Drawing.Size(354, 234);
+            this.Controls.Add(this.btn_Simulate);
             this.Controls.Add(this.lbl_HR);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.txtBx_LogFileName);
@@ -119,6 +131,7 @@
         private System.Windows.Forms.TextBox txtBx_LogFileName;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label lbl_HR;
+        private System.Windows.Forms.Button btn_Simulate;
     }
 }
 

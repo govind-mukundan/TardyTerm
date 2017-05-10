@@ -88,8 +88,6 @@ namespace TardyTerm
                 _buffTail = 0;
 
             }
-
-
         }
 
         public void WriteData(byte[] op)

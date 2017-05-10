@@ -137,5 +137,14 @@ namespace TardyTerm
         {
             System.Environment.Exit(0);
         }
+
+
+        byte[] RESP_ACK = { 0x06 };
+        byte[] RESP_READ_16 = { 0x06,0x05,0x00,0x4D,0x58 };
+        
+        private void btn_Simulate_Click(object sender, EventArgs e)
+        {
+            if (_comInterface != null) _comInterface.WriteData(RESP_READ_16);
+        }
     }
 }

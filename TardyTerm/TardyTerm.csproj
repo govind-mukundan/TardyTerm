@@ -51,6 +51,8 @@
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
     <Compile Include="HRAnalyzer.cs" />
+    <Compile Include="PcapConverter.cs" />
+    <Compile Include="PipeCom.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SerialPortAdapter.cs" />
